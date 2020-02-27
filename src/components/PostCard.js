@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 // Material-UI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -36,6 +38,8 @@ const PostCard = props => {
       commentCount
     }
   } = props;
+
+  dayjs.extend(relativeTime);
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -52,8 +56,8 @@ const PostCard = props => {
         >
           {username}
         </Typography>
-        <Typography variant="body2" color="secondary">
-          {createdAt}
+        <Typography variant="body2" color="textSecondary">
+          {dayjs(createdAt).fromNow()}
         </Typography>
         <Typography variant="body1">{body}</Typography>
       </CardContent>
