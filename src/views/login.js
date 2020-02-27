@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import AppIcon from "../images/socialbee2.png";
-import axios from "axios";
 import { Link } from "react-router-dom";
 
 // Redux
@@ -48,7 +47,7 @@ const Login = props => {
       email: values.email,
       password: values.password
     };
-    console.log("userData", userData);
+
     dispatch(loginUser(userData, props.history));
   };
 
