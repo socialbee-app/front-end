@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import AppIcon from "../images/socialbee2.png";
 import axios from "axios";
 import { Link } from "react-router-dom";
+
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { loginUser } from "../redux/actions/userActions";
 
 // Material-UI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -17,44 +21,35 @@ const styles = theme => ({
 });
 
 const Login = props => {
+  // const user = useSelector(state => state.userReducer);
+  const errors = useSelector(state => state.UI.errors);
+  const dispatch = useDispatch();
+
   const { classes } = props;
 
   const [values, setValues] = useState({
     email: "",
     password: "",
-    loading: false,
     errors: {}
   });
 
+  useEffect(() => {
+    if (errors) {
+      setValues({
+        ...values,
+        errors: errors
+      });
+    }
+  }, [errors]);
+
   const handleSubmit = event => {
     event.preventDefault();
-    setValues({
-      ...values,
-      loading: true
-    });
     const userData = {
       email: values.email,
       password: values.password
     };
-    axios
-      .post("/login", userData)
-      .then(res => {
-        console.log("res.data", res.data);
-        localStorage.setItem("IdToken", `Bearer ${res.data.token}`);
-        setValues({
-          ...values,
-          loading: false
-        });
-        props.history.push("/");
-      })
-      .catch(err => {
-        console.log(err);
-        setValues({
-          ...values,
-          errors: err.response.data,
-          loading: false
-        });
-      });
+    console.log("userData", userData);
+    dispatch(loginUser(userData, props.history));
   };
 
   const handleChange = event => {
