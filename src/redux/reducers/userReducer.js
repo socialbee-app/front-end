@@ -4,11 +4,13 @@ import {
   // CLEAR_ERRORS,
   // LOADING_UI,
   SET_AUTHENTICATED,
-  SET_UNAUTHENTICATED
+  SET_UNAUTHENTICATED,
+  LOADING_USER
 } from "../types";
 
 const initialState = {
   isAuthenticated: false,
+  loading: false,
   credentials: {},
   likes: [],
   notifications: []
@@ -26,7 +28,13 @@ export const userReducer = (state = initialState, action) => {
     case SET_USER:
       return {
         isAuthenticated: true,
+        loading: false,
         ...action.payload
+      };
+    case LOADING_USER:
+      return {
+        ...state,
+        loading: true
       };
     default:
       return state;
