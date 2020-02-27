@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "react-router-dom/Link";
+import { Link } from "react-router-dom";
 
 // Material-UI
 import { fade, makeStyles } from "@material-ui/core/styles";
@@ -17,7 +17,6 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Button from "@material-ui/core/Button";
-import theme from "../App";
 
 const useStyles = makeStyles(theme => ({
   grow: {
