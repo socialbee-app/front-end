@@ -3,6 +3,7 @@ import axios from "axios";
 
 // Components
 import PostCard from "../components/PostCard";
+import Profile from "../components/Profile";
 
 // Material-UI
 import Grid from "@material-ui/core/Grid";
@@ -26,7 +27,7 @@ export default function Home() {
       </PostCard>
     ))
   ) : (
-    <p>Loading...</p>
+    <Profile />
   );
   return (
     <Grid container spacing={2}>
@@ -34,7 +35,7 @@ export default function Home() {
         {recentPosts}
       </Grid>
       <Grid item sm={4} xs={12}>
-        <p>Profile...</p>
+        <Profile />
       </Grid>
     </Grid>
   );
