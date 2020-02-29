@@ -60,6 +60,7 @@ export const getUserData = () => dispatch => {
 };
 
 const setAuthorizationHeader = token => {
+  // sets the auth header globally
   const IdToken = `Bearer ${token}`;
   localStorage.setItem("IdToken", IdToken);
   axios.defaults.headers.common["Authorization"] = IdToken;
