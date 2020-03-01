@@ -5,18 +5,18 @@ import dayjs from "dayjs";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
+import { uploadImage } from "../redux/actions/userActions";
 
 // Material-UI
 import Button from "@material-ui/core/Button";
 import MUILink from "@material-ui/core/Link";
-import { Typography, Paper } from "@material-ui/core";
-// import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
-// import themeFile from "../util/theme";
+import { Typography, Paper, IconButton, Tooltip } from "@material-ui/core";
 
 // Icons
 import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
+import EditIcon from "@material-ui/icons/Edit";
 
 // const theme = createMuiTheme(themeFile);
 
@@ -73,15 +73,42 @@ const Profile = props => {
   const loading = useSelector(state => state.user.loading);
   const isAuthenticated = useSelector(state => state.user.isAuthenticated);
 
+  const dispatch = useDispatch();
+
   const { classes } = props;
 
+  const handleImageChange = event => {
+    const image = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", image, image.name);
+    dispatch(uploadImage(formData));
+  };
+
+  const handleEditPicture = () => {
+    const fileInput = document.getElementById("imageInput");
+    fileInput.click();
+  };
+
   // Check if loading and nested is also checking if authenticated
-  let profileMarkup = !loading ? (
+  let profileMarkup = loading ? (
     <p>loading...</p>
   ) : isAuthenticated ? (
     <Paper className={classes.paper}>
       <div className={classes.profile}>
-        <img src={user.imageUrl} alt="profile" />
+        <div className="image-wrapper">
+          <img src={user.imageUrl} className="profile-image" alt="profile" />
+          <input
+            type="file"
+            id="imageInput"
+            onChange={handleImageChange}
+            hidden="hidden"
+          />
+          <Tooltip title="Edit Profile Picture" placement="right">
+            <IconButton onClick={handleEditPicture} className="button">
+              <EditIcon color="primary" />
+            </IconButton>
+          </Tooltip>
+        </div>
         <hr />
         <div className="profile-details">
           <MUILink
@@ -113,7 +140,7 @@ const Profile = props => {
             </>
           )}
           <CalendarToday color="primary" />{" "}
-          <span>Joined{dayjs(user.createAt).format("MMM YYYY")}</span>
+          <span>Joined {dayjs(user.createAt).format("MMM YYYY")}</span>
         </div>
       </div>
     </Paper>
