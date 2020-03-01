@@ -6,7 +6,7 @@ import { editUserDetails } from "../redux/actions/userActions";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
-import { IconButton, Tooltip, Icon } from "@material-ui/core";
+import { IconButton, Tooltip } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";

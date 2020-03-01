@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+
 // Material-UI
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
@@ -17,9 +21,10 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Button from "@material-ui/core/Button";
-import Tooltip from "@material-ui/core/Tooltip";
+import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles(theme => ({
+  ...theme.spreader,
   grow: {
     flexGrow: 1
   },
@@ -81,10 +86,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Navbar() {
+const Navbar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -133,25 +140,44 @@ export default function Navbar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+      {isAuthenticated ? (
+        <>
+          <MenuItem>
+            <IconButton color="inherit">
+              <AddIcon />
+            </IconButton>
+            <p>Create Post</p>
+          </MenuItem>
+          <MenuItem>
+            <IconButton aria-label="show 11 new notifications" color="inherit">
+              <Badge badgeContent={17} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <p>Notifications</p>
+          </MenuItem>
+          <MenuItem onClick={handleProfileMenuOpen}>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <p>Profile</p>
+          </MenuItem>
+        </>
+      ) : (
+        <>
+          <MenuItem component={Link} to="/login">
+            Login
+          </MenuItem>
+          <MenuItem component={Link} to="/signup">
+            Signup
+          </MenuItem>
+        </>
+      )}
     </Menu>
   );
 
@@ -196,27 +222,49 @@ export default function Navbar() {
           </Tooltip>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Button color="inherit" component={Link} to="/signup">
-              Signup
-            </Button>
-            <Button color="inherit" component={Link} to="/login">
-              Login
-            </Button>
-            <IconButton aria-label="show notifications count" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {!isAuthenticated && (
+              <>
+                <Button color="inherit" component={Link} to="/signup">
+                  Signup
+                </Button>
+                <Button color="inherit" component={Link} to="/login">
+                  Login
+                </Button>
+              </>
+            )}
+            {isAuthenticated && (
+              <>
+                <Tooltip title="Create a post">
+                  <IconButton
+                    aria-label="add a post"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    // onClick={}
+                    color="inherit"
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </Tooltip>
+                <IconButton
+                  aria-label="show notifications count"
+                  color="inherit"
+                >
+                  <Badge badgeContent={17} color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </>
+            )}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
@@ -235,4 +283,6 @@ export default function Navbar() {
       {renderMenu}
     </div>
   );
-}
+};
+
+export default Navbar;
