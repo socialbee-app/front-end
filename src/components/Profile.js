@@ -1,13 +1,15 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 
+import EditDetails from "./EditDetails";
+
 // Redux
 import { useSelector, useDispatch } from "react-redux";
-import { uploadImage } from "../redux/actions/userActions";
+import { uploadImage, logoutUser } from "../redux/actions/userActions";
 
 // Material-UI
+import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "@material-ui/core/Button";
 import MUILink from "@material-ui/core/Link";
 import { Typography, Paper, IconButton, Tooltip } from "@material-ui/core";
@@ -17,8 +19,7 @@ import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import EditIcon from "@material-ui/icons/Edit";
-
-// const theme = createMuiTheme(themeFile);
+import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
 
 const styles = theme => ({
   paper: {
@@ -89,6 +90,10 @@ const Profile = props => {
     fileInput.click();
   };
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
+
   // Check if loading and nested is also checking if authenticated
   let profileMarkup = loading ? (
     <p>loading...</p>
@@ -142,6 +147,12 @@ const Profile = props => {
           <CalendarToday color="primary" />{" "}
           <span>Joined {dayjs(user.createAt).format("MMM YYYY")}</span>
         </div>
+        <Tooltip title="Logout" placement="top">
+          <IconButton onClick={handleLogout}>
+            <KeyboardReturn color="primary" />
+          </IconButton>
+        </Tooltip>
+        <EditDetails />
       </div>
     </Paper>
   ) : (

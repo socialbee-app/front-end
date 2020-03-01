@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import AppIcon from "../images/socialbee2.png";
 import { Link } from "react-router-dom";
 
@@ -16,7 +15,11 @@ import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = theme => ({
-  ...theme.spreader
+  ...theme.spreader,
+  button: {
+    marginTop: 20,
+    position: "relative"
+  }
 });
 
 const Signup = props => {
@@ -144,10 +147,6 @@ const Signup = props => {
       <Grid item sm />
     </Grid>
   );
-};
-
-Signup.propTypes = {
-  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Signup);
