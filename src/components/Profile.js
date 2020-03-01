@@ -1,24 +1,25 @@
 import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 
+import EditDetails from "./EditDetails";
+
 // Redux
 import { useSelector, useDispatch } from "react-redux";
+import { uploadImage, logoutUser } from "../redux/actions/userActions";
 
 // Material-UI
+import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "@material-ui/core/Button";
 import MUILink from "@material-ui/core/Link";
-import { Typography, Paper } from "@material-ui/core";
-// import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
-// import themeFile from "../util/theme";
+import { Typography, Paper, IconButton, Tooltip } from "@material-ui/core";
 
 // Icons
 import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
-
-// const theme = createMuiTheme(themeFile);
+import EditIcon from "@material-ui/icons/Edit";
+import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
 
 const styles = theme => ({
   paper: {
@@ -73,15 +74,46 @@ const Profile = props => {
   const loading = useSelector(state => state.user.loading);
   const isAuthenticated = useSelector(state => state.user.isAuthenticated);
 
+  const dispatch = useDispatch();
+
   const { classes } = props;
 
+  const handleImageChange = event => {
+    const image = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", image, image.name);
+    dispatch(uploadImage(formData));
+  };
+
+  const handleEditPicture = () => {
+    const fileInput = document.getElementById("imageInput");
+    fileInput.click();
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
+
   // Check if loading and nested is also checking if authenticated
-  let profileMarkup = !loading ? (
+  let profileMarkup = loading ? (
     <p>loading...</p>
   ) : isAuthenticated ? (
     <Paper className={classes.paper}>
       <div className={classes.profile}>
-        <img src={user.imageUrl} alt="profile" />
+        <div className="image-wrapper">
+          <img src={user.imageUrl} className="profile-image" alt="profile" />
+          <input
+            type="file"
+            id="imageInput"
+            onChange={handleImageChange}
+            hidden="hidden"
+          />
+          <Tooltip title="Edit Profile Picture" placement="right">
+            <IconButton onClick={handleEditPicture} className="button">
+              <EditIcon color="primary" />
+            </IconButton>
+          </Tooltip>
+        </div>
         <hr />
         <div className="profile-details">
           <MUILink
@@ -113,8 +145,14 @@ const Profile = props => {
             </>
           )}
           <CalendarToday color="primary" />{" "}
-          <span>Joined{dayjs(user.createAt).format("MMM YYYY")}</span>
+          <span>Joined {dayjs(user.createAt).format("MMM YYYY")}</span>
         </div>
+        <Tooltip title="Logout" placement="top">
+          <IconButton onClick={handleLogout}>
+            <KeyboardReturn color="primary" />
+          </IconButton>
+        </Tooltip>
+        <EditDetails />
       </div>
     </Paper>
   ) : (
