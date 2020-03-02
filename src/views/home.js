@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { getPosts } from "../redux/actions/dataActions";
+
 // Components
 import PostCard from "../components/PostCard";
 import Profile from "../components/Profile";
@@ -8,26 +12,24 @@ import Profile from "../components/Profile";
 // Material-UI
 import Grid from "@material-ui/core/Grid";
 
-export default function Home() {
-  const [posts, setPosts] = useState();
+const Home = () => {
+  const loading = useSelector(state => state.data.loading);
+  const posts = useSelector(state => state.data.posts);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    axios
-      .get("/posts")
-      .then(res => {
-        setPosts([...res.data]);
-      })
-      .catch(err => console.log(err));
+    dispatch(getPosts());
   }, []);
 
-  const recentPosts = posts ? (
+  const recentPosts = !loading ? (
     posts.map((post, i) => (
       <PostCard post={post} key={i}>
         {post.body}
       </PostCard>
     ))
   ) : (
-    <Profile />
+    <p>Loading...</p>
   );
   return (
     <Grid container spacing={2}>
@@ -39,4 +41,6 @@ export default function Home() {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default Home;

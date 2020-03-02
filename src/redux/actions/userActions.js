@@ -1,58 +1,51 @@
 import axios from "axios";
-import {
-  SET_USER,
-  SET_ERRORS,
-  CLEAR_ERRORS,
-  LOADING_UI,
-  SET_UNAUTHENTICATED,
-  LOADING_USER
-} from "../types";
+import * as actionTypes from "../types";
 
 export const loginUser = (userData, history) => dispatch => {
-  dispatch({ type: LOADING_UI });
+  dispatch({ type: actionTypes.LOADING_UI });
   axios
     .post("/login", userData)
     .then(res => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
+      dispatch({ type: actionTypes.CLEAR_ERRORS });
       history.push("/");
     })
     .catch(err => {
       console.log(err);
-      dispatch({ type: SET_ERRORS, payload: err.response.data });
+      dispatch({ type: actionTypes.SET_ERRORS, payload: err.response.data });
     });
 };
 
 export const signupUser = (newUserData, history) => dispatch => {
-  dispatch({ type: LOADING_UI });
+  dispatch({ type: actionTypes.LOADING_UI });
   axios
     .post("/signup", newUserData)
     .then(res => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
+      dispatch({ type: actionTypes.CLEAR_ERRORS });
       history.push("/");
     })
     .catch(err => {
       console.log(err);
-      dispatch({ type: SET_ERRORS, payload: err.response.data });
+      dispatch({ type: actionTypes.SET_ERRORS, payload: err.response.data });
     });
 };
 
 export const logoutUser = () => dispatch => {
   localStorage.removeItem("IdToken");
   delete axios.defaults.headers.common["Authorization"];
-  dispatch({ type: SET_UNAUTHENTICATED });
+  dispatch({ type: actionTypes.SET_UNAUTHENTICATED });
 };
 
 export const getUserData = () => dispatch => {
-  dispatch({ type: LOADING_USER });
+  dispatch({ type: actionTypes.LOADING_USER });
   axios
     .get("/user")
     .then(res => {
       dispatch({
-        type: SET_USER,
+        type: actionTypes.SET_USER,
         payload: res.data
       });
     })
@@ -60,7 +53,7 @@ export const getUserData = () => dispatch => {
 };
 
 export const uploadImage = formData => dispatch => {
-  dispatch({ type: LOADING_USER });
+  dispatch({ type: actionTypes.LOADING_USER });
   axios
     .post("/user/image", formData)
     .then(() => {
@@ -70,7 +63,7 @@ export const uploadImage = formData => dispatch => {
 };
 
 export const editUserDetails = userDetails => dispatch => {
-  dispatch({ type: LOADING_USER });
+  dispatch({ type: actionTypes.LOADING_USER });
   axios
     .post("/user", userDetails)
     .then(() => {

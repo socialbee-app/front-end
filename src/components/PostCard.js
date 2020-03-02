@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { likePost, unlikePost } from "../redux/actions/dataActions";
+
 // Material-UI
 import withStyles from "@material-ui/core/styles/withStyles";
 import Card from "@material-ui/core/Card";
@@ -20,8 +24,8 @@ const styles = {
     minHeight: 150
   },
   content: {
-    padding: 25
-    // objectFit: "cover"
+    padding: 25,
+    objectFit: "cover"
   }
 };
 
