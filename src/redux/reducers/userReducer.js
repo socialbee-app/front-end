@@ -42,7 +42,7 @@ export const userReducer = (state = initialState, action) => {
     case actionTypes.UNLIKE_POST:
       return {
         ...state,
-        likes: state.likes.filter(like => like.postId === action.payload.postId)
+        likes: state.likes.filter(like => like.postId !== action.payload.postId)
       };
     default:
       return state;

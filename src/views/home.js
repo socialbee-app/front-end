@@ -15,6 +15,8 @@ import Grid from "@material-ui/core/Grid";
 const Home = () => {
   const loading = useSelector(state => state.data.loading);
   const posts = useSelector(state => state.data.posts);
+  const likes = useSelector(state => state.user.likes);
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated);
 
   const dispatch = useDispatch();
 
@@ -24,7 +26,12 @@ const Home = () => {
 
   const recentPosts = !loading ? (
     posts.map((post, i) => (
-      <PostCard post={post} key={i}>
+      <PostCard
+        post={post}
+        key={i}
+        likes={likes}
+        isAuthenticated={isAuthenticated}
+      >
         {post.body}
       </PostCard>
     ))
