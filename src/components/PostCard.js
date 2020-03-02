@@ -3,12 +3,22 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { likePost, unlikePost } from "../redux/actions/dataActions";
+
 // Material-UI
 import withStyles from "@material-ui/core/styles/withStyles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import { Typography } from "@material-ui/core";
+import { Typography, Tooltip } from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
+
+// Icons
+import ChatIcon from "@material-ui/icons/Chat";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 
 const styles = {
   card: {
@@ -20,12 +30,13 @@ const styles = {
     minHeight: 150
   },
   content: {
-    padding: 25
-    // objectFit: "cover"
+    padding: 25,
+    objectFit: "cover"
   }
 };
 
 const PostCard = props => {
+  const dispatch = useDispatch();
   const {
     classes,
     post: {
@@ -36,8 +47,40 @@ const PostCard = props => {
       postId,
       likeCount,
       commentCount
-    }
+    },
+    isAuthenticated,
+    likes
   } = props;
+
+  const likedPost = () => {
+    if (likes && likes.find(like => like.postId === postId)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const likeButton = !isAuthenticated ? (
+    <Tooltip title="Like">
+      <IconButton>
+        <Link to="/login">
+          <FavoriteBorder color="primary" />
+        </Link>
+      </IconButton>
+    </Tooltip>
+  ) : likedPost() ? (
+    <Tooltip title="Unlike">
+      <IconButton onClick={() => dispatch(unlikePost(postId))}>
+        <FavoriteIcon color="primary" />
+      </IconButton>
+    </Tooltip>
+  ) : (
+    <Tooltip title="Like">
+      <IconButton onClick={() => dispatch(likePost(postId))}>
+        <FavoriteBorder color="primary" />
+      </IconButton>
+    </Tooltip>
+  );
 
   dayjs.extend(relativeTime);
   return (
@@ -60,6 +103,14 @@ const PostCard = props => {
           {dayjs(createdAt).fromNow()}
         </Typography>
         <Typography variant="body1">{body}</Typography>
+        {likeButton}
+        <span>{likeCount} Likes</span>
+        <Tooltip title="comments">
+          <IconButton>
+            <ChatIcon color="primary" />
+          </IconButton>
+        </Tooltip>
+        <span>{commentCount} comments</span>
       </CardContent>
     </Card>
   );
