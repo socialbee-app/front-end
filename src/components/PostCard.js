@@ -6,7 +6,6 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import DeletePost from "./DeletePost";
 
 // Redux
-import { useSelector, useDispatch } from "react-redux";
 import { likePost, unlikePost } from "../redux/actions/dataActions";
 
 // Material-UI
