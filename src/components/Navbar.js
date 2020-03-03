@@ -97,6 +97,8 @@ const Navbar = () => {
   const isAuthenticated = useSelector(state => state.user.isAuthenticated);
   const UI = useSelector(state => state.UI);
 
+  const dispatch = useDispatch();
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -238,7 +240,7 @@ const Navbar = () => {
             )}
             {isAuthenticated && (
               <>
-                <AddPost menuId={menuId} />
+                <AddPost menuId={menuId} UI={UI} dispatch={dispatch} />
                 <IconButton
                   aria-label="show notifications count"
                   color="inherit"
