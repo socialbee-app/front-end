@@ -21,6 +21,28 @@ export const getPosts = () => dispatch => {
     });
 };
 
+// Add a new post
+export const addPost = post => dispatch => {
+  dispatch({ type: actionTypes.LOADING_UI });
+  axios
+    .post("/post", post)
+    .then(res => {
+      dispatch({
+        type: actionTypes.ADD_POST,
+        payload: res.data
+      });
+      dispatch({
+        type: actionTypes.CLEAR_ERRORS
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: actionTypes.SET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
 // like a post
 export const likePost = postId => dispatch => {
   axios

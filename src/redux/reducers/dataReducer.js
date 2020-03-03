@@ -36,6 +36,11 @@ export const dataReducer = (state = initialState, action) => {
         ...state,
         posts: [...newPostsList]
       };
+    case actionTypes.ADD_POST:
+      return {
+        ...state,
+        posts: [action.payload, ...state.posts]
+      };
     default:
       return state;
   }

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+// Components
+import AddPost from "./AddPost";
+
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 
@@ -92,6 +95,7 @@ const Navbar = () => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isAuthenticated = useSelector(state => state.user.isAuthenticated);
+  const UI = useSelector(state => state.UI);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -234,17 +238,7 @@ const Navbar = () => {
             )}
             {isAuthenticated && (
               <>
-                <Tooltip title="Create a post">
-                  <IconButton
-                    aria-label="add a post"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    // onClick={}
-                    color="inherit"
-                  >
-                    <AddIcon />
-                  </IconButton>
-                </Tooltip>
+                <AddPost menuId={menuId} />
                 <IconButton
                   aria-label="show notifications count"
                   color="inherit"
