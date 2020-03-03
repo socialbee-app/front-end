@@ -22,7 +22,9 @@ const styles = theme => ({
   ...theme.spreader,
   submitButton: {
     position: "relative",
-    marginTop: 20
+    marginTop: 20,
+    marginBottom: 10,
+    float: "right"
   },
   progressSpinner: {
     position: "absolute"
