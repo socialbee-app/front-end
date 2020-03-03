@@ -46,3 +46,13 @@ export const unlikePost = postId => dispatch => {
     })
     .catch(err => console.log(err));
 };
+
+// delete a post
+export const deletePost = postId => dispatch => {
+  axios
+    .delete(`/post/${postId}`)
+    .then(() => {
+      dispatch({ type: actionTypes.DELETE_POST, payload: postId });
+    })
+    .catch(err => console.log(err));
+};

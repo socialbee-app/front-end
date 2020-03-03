@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -16,7 +15,7 @@ const Home = () => {
   const loading = useSelector(state => state.data.loading);
   const posts = useSelector(state => state.data.posts);
   const likes = useSelector(state => state.user.likes);
-  const isAuthenticated = useSelector(state => state.user.isAuthenticated);
+  const user = useSelector(state => state.user);
 
   const dispatch = useDispatch();
 
@@ -30,7 +29,9 @@ const Home = () => {
         post={post}
         key={i}
         likes={likes}
-        isAuthenticated={isAuthenticated}
+        isAuthenticated={user.isAuthenticated}
+        user={user}
+        dispatch={dispatch}
       >
         {post.body}
       </PostCard>
