@@ -88,17 +88,14 @@ const Login = props => {
             type="password"
             label="Password"
             className={classes.textField}
-            helperText={values.errors.password}
-            error={values.errors.password ? true : false}
+            helperText={values.errors.password || values.errors.general}
+            error={
+              values.errors.password || values.errors.general ? true : false
+            }
             value={values.password}
             onChange={handleChange}
             fullWidth
           />
-          {values.errors.general && (
-            <Typography variant="body2" className={classes.customError}>
-              {values.errors.general}
-            </Typography>
-          )}
           <Button
             type="submit"
             variant="contained"
