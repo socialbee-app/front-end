@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+import DeletePost from "./DeletePost";
+
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { likePost, unlikePost } from "../redux/actions/dataActions";
@@ -22,12 +24,16 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 
 const styles = {
   card: {
+    position: "relative",
     display: "flex",
-    marginBottom: 20
+    marginBottom: 20,
+    alignItems: "flex-start"
   },
   image: {
     minWidth: 200,
-    minHeight: 150
+    minHeight: 200,
+    maxHeight: 250,
+    maxWidth: 250
   },
   content: {
     padding: 25,
@@ -36,7 +42,6 @@ const styles = {
 };
 
 const PostCard = props => {
-  const dispatch = useDispatch();
   const {
     classes,
     post: {
@@ -48,8 +53,9 @@ const PostCard = props => {
       likeCount,
       commentCount
     },
-    isAuthenticated,
-    likes
+    user,
+    likes,
+    dispatch
   } = props;
 
   const likedPost = () => {
@@ -60,7 +66,7 @@ const PostCard = props => {
     }
   };
 
-  const likeButton = !isAuthenticated ? (
+  const likeButton = !user.isAuthenticated ? (
     <Tooltip title="Like">
       <IconButton>
         <Link to="/login">
@@ -82,6 +88,11 @@ const PostCard = props => {
     </Tooltip>
   );
 
+  const deleteButton =
+    user.isAuthenticated && username === user.credentials.username ? (
+      <DeletePost postId={postId} dispatch={dispatch} />
+    ) : null;
+
   dayjs.extend(relativeTime);
   return (
     <Card className={classes.card}>
@@ -99,6 +110,7 @@ const PostCard = props => {
         >
           {username}
         </Typography>
+        {deleteButton}
         <Typography variant="body2" color="textSecondary">
           {dayjs(createdAt).fromNow()}
         </Typography>

@@ -28,6 +28,14 @@ export const dataReducer = (state = initialState, action) => {
       return {
         ...state
       };
+    case actionTypes.DELETE_POST:
+      let newPostsList = state.posts.filter(
+        post => post.postId !== action.payload
+      );
+      return {
+        ...state,
+        posts: [...newPostsList]
+      };
     default:
       return state;
   }
