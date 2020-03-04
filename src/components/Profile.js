@@ -36,8 +36,8 @@ const styles = theme => ({
       }
     },
     "& .profile-image": {
-      width: 200,
-      height: 200,
+      width: 175,
+      height: 175,
       objectFit: "cover",
       maxWidth: "100%",
       borderRadius: "50%"

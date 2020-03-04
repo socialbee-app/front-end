@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+// Components
 import DeletePost from "./DeletePost";
+import PostModal from "./PostModal";
 
 // Redux
-import { likePost, unlikePost } from "../redux/actions/dataActions";
+import { likePost, unlikePost, getPost } from "../redux/actions/dataActions";
 
 // Material-UI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -26,7 +28,8 @@ const styles = {
     position: "relative",
     display: "flex",
     marginBottom: 20,
-    alignItems: "flex-start"
+    alignItems: "flex-start",
+    cursor: "pointer"
   },
   image: {
     minWidth: 200,
@@ -54,7 +57,8 @@ const PostCard = props => {
     },
     user,
     likes,
-    dispatch
+    dispatch,
+    UI
   } = props;
 
   const likedPost = () => {
@@ -92,38 +96,62 @@ const PostCard = props => {
       <DeletePost postId={postId} dispatch={dispatch} />
     ) : null;
 
+  // Post Modal Code
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+    dispatch(getPost(postId));
+    console.log("wheee!");
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+    console.log("wOOOOO!");
+  };
+
   dayjs.extend(relativeTime);
   return (
-    <Card className={classes.card}>
-      <CardMedia
-        image={userImage}
-        title="Profile Image"
-        className={classes.image}
-      />
-      <CardContent className={classes.content}>
-        <Typography
-          variant="h5"
-          component={Link}
-          to={`/users/${username}`}
-          color="primary"
-        >
-          {username}
-        </Typography>
-        {deleteButton}
-        <Typography variant="body2" color="textSecondary">
-          {dayjs(createdAt).fromNow()}
-        </Typography>
-        <Typography variant="body1">{body}</Typography>
-        {likeButton}
-        <span>{likeCount} Likes</span>
-        <Tooltip title="comments">
-          <IconButton>
-            <ChatIcon color="primary" />
-          </IconButton>
-        </Tooltip>
-        <span>{commentCount} comments</span>
-      </CardContent>
-    </Card>
+    <>
+      <Card onClick={handleModalOpen} className={classes.card}>
+        <CardMedia
+          image={userImage}
+          title="Profile Image"
+          className={classes.image}
+        />
+        <CardContent className={classes.content}>
+          <Typography
+            variant="h5"
+            component={Link}
+            to={`/users/${username}`}
+            color="primary"
+          >
+            {username}
+          </Typography>
+          {deleteButton}
+          <Typography variant="body2" color="textSecondary">
+            {dayjs(createdAt).fromNow()}
+          </Typography>
+          <Typography variant="body1">{body}</Typography>
+          {likeButton}
+          <span>{likeCount} Likes</span>
+          <Tooltip title="comments">
+            <IconButton>
+              <ChatIcon color="primary" />
+            </IconButton>
+          </Tooltip>
+          <span>{commentCount} comments</span>
+        </CardContent>
+      </Card>
+      {modalOpen && (
+        <PostModal
+          post={props.post}
+          UI={UI}
+          modalOpen={modalOpen}
+          handleModalClose={handleModalClose}
+        />
+      )}
+    </>
   );
 };
 

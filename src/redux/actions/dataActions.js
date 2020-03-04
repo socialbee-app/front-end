@@ -21,6 +21,21 @@ export const getPosts = () => dispatch => {
     });
 };
 
+// Get a single post
+export const getPost = postId => dispatch => {
+  dispatch({ type: actionTypes.LOADING_UI });
+  axios
+    .get(`/post/${postId}`)
+    .then(res => {
+      dispatch({
+        type: actionTypes.SET_POST,
+        payload: res.data
+      });
+      dispatch({ type: actionTypes.STOP_LOADING_UI });
+    })
+    .catch(err => console.log(err));
+};
+
 // Add a new post
 export const addPost = post => dispatch => {
   dispatch({ type: actionTypes.LOADING_UI });
