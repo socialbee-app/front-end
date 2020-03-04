@@ -19,6 +19,12 @@ export const dataReducer = (state = initialState, action) => {
         posts: action.payload,
         loading: false
       };
+    case actionTypes.SET_POST:
+      return {
+        ...state,
+        post: action.payload,
+        loading: false
+      };
     case actionTypes.LIKE_POST:
     case actionTypes.UNLIKE_POST:
       let index = state.posts.findIndex(

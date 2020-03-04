@@ -16,6 +16,7 @@ const Home = () => {
   const posts = useSelector(state => state.data.posts);
   const likes = useSelector(state => state.user.likes);
   const user = useSelector(state => state.user);
+  const UI = useSelector(state => state.UI);
 
   const dispatch = useDispatch();
 
@@ -32,6 +33,7 @@ const Home = () => {
         isAuthenticated={user.isAuthenticated}
         user={user}
         dispatch={dispatch}
+        UI={UI}
       >
         {post.body}
       </PostCard>
