@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Redux
-import { addPost } from "../redux/actions/dataActions";
+import { addPost } from "../../redux/actions/dataActions";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
-import { editUserDetails } from "../redux/actions/userActions";
+import { editUserDetails } from "../../redux/actions/userActions";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";

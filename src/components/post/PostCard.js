@@ -6,9 +6,10 @@ import relativeTime from "dayjs/plugin/relativeTime";
 // Components
 import DeletePost from "./DeletePost";
 import PostModal from "./PostModal";
+import LikeButton from "./LikeButton";
 
 // Redux
-import { likePost, unlikePost, getPost } from "../redux/actions/dataActions";
+import { likePost, unlikePost, getPost } from "../../redux/actions/dataActions";
 
 // Material-UI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -61,36 +62,6 @@ const PostCard = props => {
     UI
   } = props;
 
-  const likedPost = () => {
-    if (likes && likes.find(like => like.postId === postId)) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const likeButton = !user.isAuthenticated ? (
-    <Tooltip title="Like">
-      <IconButton>
-        <Link to="/login">
-          <FavoriteBorder color="primary" />
-        </Link>
-      </IconButton>
-    </Tooltip>
-  ) : likedPost() ? (
-    <Tooltip title="Unlike">
-      <IconButton onClick={() => dispatch(unlikePost(postId))}>
-        <FavoriteIcon color="primary" />
-      </IconButton>
-    </Tooltip>
-  ) : (
-    <Tooltip title="Like">
-      <IconButton onClick={() => dispatch(likePost(postId))}>
-        <FavoriteBorder color="primary" />
-      </IconButton>
-    </Tooltip>
-  );
-
   const deleteButton =
     user.isAuthenticated && username === user.credentials.username ? (
       <DeletePost postId={postId} dispatch={dispatch} />
@@ -102,12 +73,10 @@ const PostCard = props => {
   const handleModalOpen = () => {
     setModalOpen(true);
     dispatch(getPost(postId));
-    console.log("wheee!");
   };
 
   const handleModalClose = () => {
     setModalOpen(false);
-    console.log("wOOOOO!");
   };
 
   dayjs.extend(relativeTime);
@@ -133,7 +102,7 @@ const PostCard = props => {
             {dayjs(createdAt).fromNow()}
           </Typography>
           <Typography variant="body1">{body}</Typography>
-          {likeButton}
+          <LikeButton postId={postId} />
           <span>{likeCount} Likes</span>
           <Tooltip title="comments">
             <IconButton>
