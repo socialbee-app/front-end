@@ -9,7 +9,7 @@ import PostModal from "./PostModal";
 import LikeButton from "./LikeButton";
 
 // Redux
-import { likePost, unlikePost, getPost } from "../../redux/actions/dataActions";
+import { getPost, clearErrors } from "../../redux/actions/dataActions";
 
 // Material-UI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -21,8 +21,6 @@ import IconButton from "@material-ui/core/IconButton";
 
 // Icons
 import ChatIcon from "@material-ui/icons/Chat";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 
 const styles = {
   card: {
@@ -77,6 +75,7 @@ const PostCard = props => {
 
   const handleModalClose = () => {
     setModalOpen(false);
+    clearErrors();
   };
 
   dayjs.extend(relativeTime);
@@ -118,6 +117,8 @@ const PostCard = props => {
           UI={UI}
           modalOpen={modalOpen}
           handleModalClose={handleModalClose}
+          user={user}
+          dispatch={dispatch}
         />
       )}
     </>

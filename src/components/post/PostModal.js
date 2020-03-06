@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 // Components
 import Comments from "./Comments";
 import LikeButton from "./LikeButton";
+import CommentForm from "./CommentForm";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -45,9 +46,9 @@ const PostModal = props => {
     post,
     UI,
     dispatch,
-    handleModalOpen,
     handleModalClose,
-    modalOpen
+    modalOpen,
+    user
   } = props;
 
   const modalContent = UI.loading ? (
@@ -86,6 +87,12 @@ const PostModal = props => {
         <span>{post.commentCount} comments</span>
       </Grid>
       <hr className={classes.visibleSeparator} />
+      <CommentForm
+        postId={post.postId}
+        user={user}
+        UI={UI}
+        dispatch={dispatch}
+      />
       <Comments comments={post.comments} />
     </Grid>
   );

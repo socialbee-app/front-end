@@ -46,9 +46,7 @@ export const addPost = post => dispatch => {
         type: actionTypes.ADD_POST,
         payload: res.data
       });
-      dispatch({
-        type: actionTypes.CLEAR_ERRORS
-      });
+      dispatch(clearErrors());
     })
     .catch(err => {
       dispatch({
@@ -84,6 +82,26 @@ export const unlikePost = postId => dispatch => {
     .catch(err => console.log(err));
 };
 
+// submit a comment
+export const submitComment = (postId, commentData) => dispatch => {
+  axios
+    .post(`/post/${postId}/comment`, commentData)
+    .then(res => {
+      dispatch({
+        type: actionTypes.SUBMIT_COMMENT,
+        payload: res.data
+      });
+
+      dispatch(clearErrors());
+    })
+    .catch(err => {
+      dispatch({
+        type: actionTypes.SET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
 // delete a post
 export const deletePost = postId => dispatch => {
   axios
@@ -92,4 +110,8 @@ export const deletePost = postId => dispatch => {
       dispatch({ type: actionTypes.DELETE_POST, payload: postId });
     })
     .catch(err => console.log(err));
+};
+
+export const clearErrors = () => dispatch => {
+  dispatch({ type: actionTypes.CLEAR_ERRORS });
 };

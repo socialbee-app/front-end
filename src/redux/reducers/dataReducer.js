@@ -47,6 +47,14 @@ export const dataReducer = (state = initialState, action) => {
         ...state,
         posts: [action.payload, ...state.posts]
       };
+    case actionTypes.SUBMIT_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: [action.payload, ...state.post.comments]
+        }
+      };
     default:
       return state;
   }

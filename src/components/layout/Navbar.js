@@ -147,7 +147,7 @@ const Navbar = () => {
       onClose={handleMobileMenuClose}
     >
       {isAuthenticated ? (
-        <>
+        <div>
           <MenuItem>
             <IconButton color="inherit">
               <AddIcon />
@@ -173,16 +173,16 @@ const Navbar = () => {
             </IconButton>
             <p>Profile</p>
           </MenuItem>
-        </>
+        </div>
       ) : (
-        <>
+        <div>
           <MenuItem component={Link} to="/login">
             Login
           </MenuItem>
           <MenuItem component={Link} to="/signup">
             Signup
           </MenuItem>
-        </>
+        </div>
       )}
     </Menu>
   );
