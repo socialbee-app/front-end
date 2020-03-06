@@ -21,7 +21,7 @@ import signup from "./views/signup";
 import login from "./views/login";
 
 // Components
-import NavBar from "./components/Navbar";
+import NavBar from "./components/layout/Navbar";
 import AuthRoute from "./util/AuthRoute";
 
 const theme = createMuiTheme(themeFile);

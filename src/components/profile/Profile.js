@@ -6,7 +6,7 @@ import EditDetails from "./EditDetails";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
-import { uploadImage, logoutUser } from "../redux/actions/userActions";
+import { uploadImage, logoutUser } from "../../redux/actions/userActions";
 
 // Material-UI
 import withStyles from "@material-ui/core/styles/withStyles";

@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { getPosts } from "../redux/actions/dataActions";
 
 // Components
-import PostCard from "../components/PostCard";
-import Profile from "../components/Profile";
+import PostCard from "../components/post/PostCard";
+import Profile from "../components/profile/Profile";
 
 // Material-UI
 import Grid from "@material-ui/core/Grid";

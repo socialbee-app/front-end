@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 // Redux
 import { useDispatch } from "react-redux";
-import { deletePost } from "../redux/actions/dataActions";
+import { deletePost } from "../../redux/actions/dataActions";
 
 // Material-UI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -29,15 +29,12 @@ const DeletePost = props => {
 
   const { classes, postId, dispatch } = props;
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = event => {
+    event.stopPropagation();
     dispatch(deletePost(postId));
     setOpen(false);
   };
@@ -45,14 +42,32 @@ const DeletePost = props => {
   return (
     <>
       <Tooltip title="Delete Post">
-        <IconButton onClick={handleOpen} className={classes.deleteButton}>
+        <IconButton
+          onClick={event => {
+            event.stopPropagation();
+            setOpen(true);
+          }}
+          className={classes.deleteButton}
+        >
           <DeleteOutline color="secondary" />
         </IconButton>
       </Tooltip>
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        onClick={event => event.stopPropagation()}
+        fullWidth
+        maxWidth="sm"
+      >
         <DialogTitle>Are you sure you want to delete this post?</DialogTitle>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button
+            onClick={event => {
+              event.stopPropagation();
+              setOpen(false);
+            }}
+            color="primary"
+          >
             Cancel
           </Button>
           <Button onClick={handleDelete} color="secondary">

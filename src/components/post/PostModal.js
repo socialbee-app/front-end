@@ -1,24 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
-// Redux
-// import { getPost } from "../redux/actions/dataActions";
+// Components
+import Comments from "./Comments";
+import LikeButton from "./LikeButton";
+import CommentForm from "./CommentForm";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
 
 // Icons
-import CloseIcon from "@material-ui/icons/Close";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import ChatIcon from "@material-ui/icons/Chat";
 
 const styles = theme => ({
   ...theme.spreader,
@@ -26,10 +26,6 @@ const styles = theme => ({
     position: "absolute",
     right: 0,
     top: 0
-  },
-  separator: {
-    border: "none",
-    margin: 4
   },
   userImage: {
     borderRadius: "50%",
@@ -50,21 +46,10 @@ const PostModal = props => {
     post,
     UI,
     dispatch,
-    handleModalOpen,
     handleModalClose,
-    modalOpen
+    modalOpen,
+    user
   } = props;
-
-  // const [modalOpen, setModalOpen] = useState(false);
-
-  // const handleModalOpen = () => {
-  //   setModalOpen(true);
-  //   dispatch(getPost(post.postId));
-  // };
-
-  // const handleModalClose = () => {
-  //   setModalOpen(false);
-  // };
 
   const modalContent = UI.loading ? (
     <CircularProgress size={150} />
@@ -86,42 +71,41 @@ const PostModal = props => {
         >
           @{post.username}
         </Typography>
-        <hr className={classes.separator} />
+        <hr className={classes.invisibleSeparator} />
         <Typography variant="body2" color="textSecondary">
           {dayjs(post.createdAt).format("h:mm a, MMMM DD YYYY")}
         </Typography>
-        <hr className={classes.separator} />
+        <hr className={classes.invisibleSeparator} />
         <Typography variant="body1">{post.body}</Typography>
+        <LikeButton postId={post.postId} />
+        <span>{post.likeCount} Likes</span>
+        <Tooltip title="comments">
+          <IconButton>
+            <ChatIcon color="primary" />
+          </IconButton>
+        </Tooltip>
+        <span>{post.commentCount} comments</span>
       </Grid>
+      <hr className={classes.visibleSeparator} />
+      <CommentForm
+        postId={post.postId}
+        user={user}
+        UI={UI}
+        dispatch={dispatch}
+      />
+      <Comments comments={post.comments} />
     </Grid>
   );
 
   return (
     <>
-      {/* <Tooltip title="Expand">
-        <IconButton onClick={handleModalOpen}>
-          <KeyboardArrowDownIcon />
-        </IconButton>
-      </Tooltip> */}
       <Dialog
         open={modalOpen}
         onClose={handleModalClose}
         fullWidth
         maxWidth="sm"
-        // onBackdropClick={handleModalClose}
         className={classes.container}
       >
-        {/* <Tooltip title="Close">
-          <IconButton
-            aria-label="close modal"
-            aria-haspopup="true"
-            onClick={handleModalClose}
-            color="inherit"
-            className={classes.closeButton}
-          >
-            <CloseIcon />
-          </IconButton>
-        </Tooltip> */}
         <DialogContent className={classes.content}>
           {modalContent}
         </DialogContent>
