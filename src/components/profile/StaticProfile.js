@@ -4,13 +4,7 @@ import dayjs from "dayjs";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
-import {
-  Typography,
-  Paper,
-  Link as MUILink,
-  Tooltip,
-  IconButton
-} from "@material-ui/core";
+import { Typography, Paper, Link as MUILink } from "@material-ui/core";
 
 // Icons
 import LocationOn from "@material-ui/icons/LocationOn";

@@ -15,7 +15,6 @@ import Grid from "@material-ui/core/Grid";
 const Profile = props => {
   const data = useSelector(state => state.data);
   const dispatch = useDispatch();
-  const likes = useSelector(state => state.user.likes);
   const user = useSelector(state => state.user);
   const UI = useSelector(state => state.UI);
 
