@@ -6,7 +6,7 @@ import { getPosts } from "../redux/actions/dataActions";
 
 // Components
 import PostCard from "../components/post/PostCard";
-import Profile from "../components/profile/Profile";
+import Profile from "../components/profile/ProfileCard";
 
 // Material-UI
 import Grid from "@material-ui/core/Grid";
