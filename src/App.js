@@ -19,6 +19,7 @@ import themeFile from "./util/theme";
 import home from "./views/home";
 import signup from "./views/signup";
 import login from "./views/login";
+import profile from "./views/profile";
 
 // Components
 import NavBar from "./components/layout/Navbar";
@@ -50,6 +51,7 @@ function App() {
               <Route exact path="/" component={home} />
               <AuthRoute path="/signup" component={signup} />
               <AuthRoute path="/login" component={login} />
+              <Route exact path="/users/:username" component={profile} />
             </Switch>
           </div>
         </Router>

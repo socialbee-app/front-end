@@ -112,6 +112,18 @@ export const deletePost = postId => dispatch => {
     .catch(err => console.log(err));
 };
 
+export const getProfileData = username => dispatch => {
+  dispatch({ type: actionTypes.LOADING_DATA });
+  axios
+    .get(`/user/${username}`)
+    .then(res => {
+      dispatch({ type: actionTypes.SET_POSTS, payload: res.data.posts });
+    })
+    .catch(() => {
+      dispatch({ type: actionTypes.SET_POSTS, payload: null });
+    });
+};
+
 export const clearErrors = () => dispatch => {
   dispatch({ type: actionTypes.CLEAR_ERRORS });
 };
