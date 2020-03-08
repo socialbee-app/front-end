@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Typography, Paper, Link as MuiLink } from "@material-ui/core";
+import { Typography, Paper, Link as MUILink } from "@material-ui/core";
 
 // Icons
 import LocationOn from "@material-ui/icons/LocationOn";
@@ -45,52 +45,58 @@ const styles = theme => ({
 
 const StaticProfile = props => {
   const { classes, profile } = props;
-  console.log("profile", profile);
+
   return (
     <Paper className={classes.paper}>
       <div className={classes.profile}>
         <div className="image-wrapper">
-          <img src={user.imageUrl} className="profile-image" alt="profile" />
+          <img
+            src={profile.profileData.imageUrl}
+            className="profile-image"
+            alt="profile"
+          />
         </div>
         <hr />
         <div className="profile-details">
           <MUILink
             component={Link}
-            to={`/users/${user.username}`}
+            to={`/users/${profile.profileData.username}`}
             color="primary"
             variant="h5"
           >
-            @{user.username}
+            @{profile.profileData.username}
           </MUILink>
           <hr />
-          {user.bio && <Typography variant="body2">{user.bio}</Typography>}
+          {profile.profileData.bio && (
+            <Typography variant="body2">{profile.profileData.bio}</Typography>
+          )}
           <hr />
-          {user.location && (
+          {profile.profileData.location && (
             <>
               <LocationOn color="primary" />
-              <span>{user.location}</span>
+              <span>{profile.profileData.location}</span>
               <hr />
             </>
           )}
-          {user.website && (
+          {profile.profileData.website && (
             <>
               <LinkIcon color="primary" />
-              <a href={user.website} target="_blank" rel="noopener noreferrer">
+              <a
+                href={profile.profileData.website}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {" "}
-                {user.website}
+                {profile.profileData.website}
               </a>
               <hr />
             </>
           )}
           <CalendarToday color="primary" />{" "}
-          <span>Joined {dayjs(user.createAt).format("MMM YYYY")}</span>
+          <span>
+            Joined {dayjs(profile.profileData.createAt).format("MMM YYYY")}
+          </span>
         </div>
-        <Tooltip title="Logout" placement="top">
-          <IconButton onClick={handleLogout}>
-            <KeyboardReturn color="primary" />
-          </IconButton>
-        </Tooltip>
-        <EditDetails />
       </div>
     </Paper>
   );

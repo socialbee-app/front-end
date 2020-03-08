@@ -84,7 +84,7 @@ const EditDetails = props => {
         </IconButton>
       </Tooltip>
       <Dialog
-        open={profileDetails.open}
+        open={profileDetails.open || false}
         onClose={handleClose}
         fullWidth
         maxWidth="sm"

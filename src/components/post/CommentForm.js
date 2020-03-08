@@ -29,7 +29,7 @@ const CommentForm = props => {
       });
 
     dispatch(clearErrors());
-  }, [UI.errors]);
+  }, [UI.errors, dispatch]);
 
   const handleChange = event => {
     setComment({

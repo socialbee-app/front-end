@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getProfileData } from "../redux/actions/dataActions";
 
 // Components
-import Post from "../components/post/PostCard";
+import PostCard from "../components/post/PostCard";
 import StaticProfile from "../components/profile/StaticProfile";
 
 // Material UI
@@ -15,9 +15,11 @@ import Grid from "@material-ui/core/Grid";
 const Profile = props => {
   const data = useSelector(state => state.data);
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
+  const UI = useSelector(state => state.UI);
 
   const [profile, setProfile] = useState({
-    profile: null
+    profileData: null
   });
 
   useEffect(() => {
@@ -28,8 +30,7 @@ const Profile = props => {
     axios
       .get(`/user/${username}`)
       .then(res => {
-        setProfile({ profile: res.data.user });
-        console.log(res.data.user);
+        setProfile({ profileData: res.data.user });
       })
       .catch(err => console.log(err));
   }, []);
@@ -40,13 +41,19 @@ const Profile = props => {
     <p>This user has no posts</p>
   ) : (
     data.posts.map((post, i) => {
-      return <Post key={i} post={post} />;
+      return (
+        <PostCard key={i} post={post} user={user} UI={UI} dispatch={dispatch} />
+      );
     })
   );
   return (
     <Grid container spacing={2}>
       <Grid item sm={4} xs={12}>
-        <StaticProfile profile={profile} />
+        {profile.profileData === null ? (
+          <p>...loading</p>
+        ) : (
+          <StaticProfile profile={profile} />
+        )}
       </Grid>
       <Grid item sm={8} xs={12}>
         {postsList}

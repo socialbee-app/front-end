@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -6,7 +6,7 @@ import { getPosts } from "../redux/actions/dataActions";
 
 // Components
 import PostCard from "../components/post/PostCard";
-import Profile from "../components/profile/ProfileCard";
+import ProfileCard from "../components/profile/ProfileCard";
 
 // Material-UI
 import Grid from "@material-ui/core/Grid";
@@ -14,7 +14,6 @@ import Grid from "@material-ui/core/Grid";
 const Home = () => {
   const loading = useSelector(state => state.data.loading);
   const posts = useSelector(state => state.data.posts);
-  const likes = useSelector(state => state.user.likes);
   const user = useSelector(state => state.user);
   const UI = useSelector(state => state.UI);
 
@@ -26,15 +25,7 @@ const Home = () => {
 
   const recentPosts = !loading ? (
     posts.map((post, i) => (
-      <PostCard
-        post={post}
-        key={i}
-        likes={likes}
-        isAuthenticated={user.isAuthenticated}
-        user={user}
-        dispatch={dispatch}
-        UI={UI}
-      >
+      <PostCard post={post} key={i} user={user} dispatch={dispatch} UI={UI}>
         {post.body}
       </PostCard>
     ))
@@ -44,7 +35,7 @@ const Home = () => {
   return (
     <Grid container spacing={2}>
       <Grid item sm={4} xs={12}>
-        <Profile />
+        <ProfileCard />
       </Grid>
       <Grid item sm={8} xs={12}>
         {recentPosts}
