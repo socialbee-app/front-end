@@ -20,7 +20,6 @@ const styles = theme => ({
 
 const LikeButton = props => {
   const { postId } = props;
-
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
 

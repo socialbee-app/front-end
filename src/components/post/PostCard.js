@@ -43,26 +43,11 @@ const styles = {
 };
 
 const PostCard = props => {
-  const {
-    classes,
-    post: {
-      body,
-      createdAt,
-      userImage,
-      username,
-      postId,
-      likeCount,
-      commentCount
-    },
-    user,
-    likes,
-    dispatch,
-    UI
-  } = props;
+  const { classes, post, user, dispatch, UI } = props;
 
   const deleteButton =
-    user.isAuthenticated && username === user.credentials.username ? (
-      <DeletePost postId={postId} dispatch={dispatch} />
+    user.isAuthenticated && post.username === user.credentials.username ? (
+      <DeletePost postId={post.postId} dispatch={dispatch} />
     ) : null;
 
   // Post Modal Code
@@ -70,7 +55,7 @@ const PostCard = props => {
 
   const handleModalOpen = () => {
     setModalOpen(true);
-    dispatch(getPost(postId));
+    dispatch(getPost(post.postId));
   };
 
   const handleModalClose = () => {
@@ -83,7 +68,7 @@ const PostCard = props => {
     <>
       <Card onClick={handleModalOpen} className={classes.card}>
         <CardMedia
-          image={userImage}
+          image={post.userImage}
           title="Profile Image"
           className={classes.image}
         />
@@ -91,29 +76,29 @@ const PostCard = props => {
           <Typography
             variant="h5"
             component={Link}
-            to={`/users/${username}`}
+            to={`/users/${post.username}`}
             color="primary"
           >
-            {username}
+            {post.username}
           </Typography>
           {deleteButton}
           <Typography variant="body2" color="textSecondary">
-            {dayjs(createdAt).fromNow()}
+            {dayjs(post.createdAt).fromNow()}
           </Typography>
-          <Typography variant="body1">{body}</Typography>
-          <LikeButton postId={postId} />
-          <span>{likeCount} Likes</span>
+          <Typography variant="body1">{post.body}</Typography>
+          <LikeButton postId={post.postId} />
+          <span>{post.likeCount} Likes</span>
           <Tooltip title="comments">
             <IconButton>
               <ChatIcon color="primary" />
             </IconButton>
           </Tooltip>
-          <span>{commentCount} comments</span>
+          <span>{post.commentCount} comments</span>
         </CardContent>
       </Card>
       {modalOpen && (
         <PostModal
-          post={props.post}
+          post={post}
           UI={UI}
           modalOpen={modalOpen}
           handleModalClose={handleModalClose}
