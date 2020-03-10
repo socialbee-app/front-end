@@ -25,8 +25,7 @@ const Notifications = props => {
   const dispatch = useDispatch();
 
   const [state, setState] = useState({
-    anchorEl: null,
-    notifications: []
+    anchorEl: null
   });
 
   dayjs.extend(relativeTime);
@@ -82,18 +81,19 @@ const Notifications = props => {
           ) : (
             <ChatIcon color={iconColor} style={{ marginRight: 10 }} />
           );
-
-        <MenuItem key={i} onClick={handleClose}>
-          {icon}
-          <Typography
-            component={Link}
-            color="default"
-            variant="body1"
-            to={`/users/${noti.recipient}/post/${noti.postId}`}
-          >
-            {noti.sender} {phrase} your post {time}
-          </Typography>
-        </MenuItem>;
+        return (
+          <MenuItem key={i} onClick={handleClose}>
+            {icon}
+            <Typography
+              component={Link}
+              color="default"
+              variant="body1"
+              to={`/users/${noti.recipient}/post/${noti.postId}`}
+            >
+              {noti.sender} {phrase} your post {time}
+            </Typography>
+          </MenuItem>
+        );
       })
     ) : (
       <MenuItem onClick={handleClose}>You have no notifications...</MenuItem>
