@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
@@ -47,6 +47,7 @@ const PostModal = props => {
     UI,
     dispatch,
     handleModalClose,
+    handleModalOpen,
     modalOpen,
     user
   } = props;

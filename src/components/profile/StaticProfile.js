@@ -2,6 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 
+// Redux
+import { getPost } from "../../redux/actions/dataActions";
+import { useSelector, useDispatch } from "react-redux";
+
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Typography, Paper, Link as MUILink } from "@material-ui/core";
@@ -12,41 +16,15 @@ import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 
 const styles = theme => ({
-  paper: {
-    padding: 20
-  },
-  profile: {
-    "& .image-wrapper": {
-      textAlign: "center",
-      position: "relative"
-    },
-    "& .profile-image": {
-      width: 175,
-      height: 175,
-      objectFit: "cover",
-      maxWidth: "100%",
-      borderRadius: "50%"
-    },
-    "& .profile-details": {
-      textAlign: "center",
-      "& span, svg": {
-        verticalAlign: "middle"
-      },
-      "& a": {
-        color: theme.palette.primary.main
-      }
-    },
-    "& hr": {
-      border: "none",
-      margin: "0 0 10px 0"
-    }
-  }
+  ...theme.spreader
 });
 
 const StaticProfile = props => {
   const { classes, profile } = props;
+  const dispatch = useDispatch();
+  const data = useSelector(state => state.data);
 
-  return (
+  const renderContent = profile.profileData ? (
     <Paper className={classes.paper}>
       <div className={classes.profile}>
         <div className="image-wrapper">
@@ -99,7 +77,11 @@ const StaticProfile = props => {
         </div>
       </div>
     </Paper>
+  ) : (
+    <p>...Loading</p>
   );
+
+  return <div>{renderContent}</div>;
 };
 
 export default withStyles(styles)(StaticProfile);

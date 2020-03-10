@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 // Components
 import AddPost from "../post/AddPost";
+import Notifications from "./Notifications";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
@@ -94,6 +95,7 @@ const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
+  const notifications = useSelector(state => state.user.notifications);
   const isAuthenticated = useSelector(state => state.user.isAuthenticated);
   const UI = useSelector(state => state.UI);
 
@@ -241,14 +243,7 @@ const Navbar = () => {
             {isAuthenticated && (
               <>
                 <AddPost menuId={menuId} UI={UI} dispatch={dispatch} />
-                <IconButton
-                  aria-label="show notifications count"
-                  color="inherit"
-                >
-                  <Badge badgeContent={17} color="secondary">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
+                <Notifications notifications={notifications} />
                 <IconButton
                   edge="end"
                   aria-label="account of current user"
