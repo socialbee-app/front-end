@@ -4,17 +4,15 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 // Redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { markNotificationsRead } from "../../redux/actions/userActions";
-
-// Components
-import Count from "./Count";
 
 // Material-UI
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import Badge from "@material-ui/core/Badge";
 
 // Icons
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -24,7 +22,6 @@ import Tooltip from "@material-ui/core/ToolTip";
 
 const Notifications = props => {
   const { notifications } = props;
-  // const notifications = useSelector(state => state.user.notifications);
   const dispatch = useDispatch();
 
   const [state, setState] = useState({
@@ -50,14 +47,34 @@ const Notifications = props => {
 
   const onOpen = () => {
     let unreadNotificationIds = notifications
-      .filter(noti => !noti.read)
+      .filter(noti => noti.read === "false")
       .map(noti => noti.notificationId);
     dispatch(markNotificationsRead(unreadNotificationIds));
   };
 
+<<<<<<< HEAD
   console.log("notifications", notifications);
 
   let counter = 0;
+=======
+  let notificationsIcon;
+  if (notifications && notifications.length > 0) {
+    notifications.filter(noti => noti.read === "false").length > 0
+      ? (notificationsIcon = (
+          <Badge
+            badgeContent={
+              notifications.filter(noti => noti.read === "false").length
+            }
+            color="secondary"
+          >
+            <NotificationsIcon />
+          </Badge>
+        ))
+      : (notificationsIcon = <NotificationsIcon />);
+  } else {
+    notificationsIcon = <NotificationsIcon />;
+  }
+>>>>>>> 959513d7c86ce7f1c1e2f1f2c2f1113f2d31a2ed
 
   let notificationsList =
     notifications && notifications.length > 0 ? (
@@ -71,9 +88,6 @@ const Notifications = props => {
           ) : (
             <ChatIcon color={iconColor} style={{ marginRight: 10 }} />
           );
-        if (!noti.read) {
-          counter += 1;
-        }
 
         <MenuItem key={i} onClick={handleClose}>
           {icon}
@@ -100,7 +114,7 @@ const Notifications = props => {
           onClick={handleOpen}
           color="inherit"
         >
-          <Count counter={counter} />
+          {notificationsIcon}
         </IconButton>
       </Tooltip>
       <Menu
@@ -108,6 +122,7 @@ const Notifications = props => {
         open={Boolean(state.anchorEl)}
         onClose={handleClose}
         onEntered={onOpen}
+        placement="bottom"
       >
         {notificationsList}
       </Menu>
