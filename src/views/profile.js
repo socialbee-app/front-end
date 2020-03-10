@@ -19,12 +19,22 @@ const Profile = props => {
   const UI = useSelector(state => state.UI);
 
   const [profile, setProfile] = useState({
-    profileData: null
+    profileData: null,
+    postIdParam: null
   });
 
   useEffect(() => {
     // Grabs profile of the user whose profile you're visiting
     const username = props.match.params.username;
+
+    const postId = props.match.params.postId;
+
+    if (postId) {
+      setProfile({
+        postIdParam: postId
+      });
+    }
+
     dispatch(getProfileData(username));
 
     axios
@@ -39,11 +49,44 @@ const Profile = props => {
     <p>...loading</p>
   ) : data.posts === null ? (
     <p>This user has no posts</p>
-  ) : (
+  ) : !profile.postIdParam ? (
     data.posts.map((post, i) => {
       return (
-        <PostCard key={i} post={post} user={user} UI={UI} dispatch={dispatch} />
+        <PostCard
+          key={i}
+          post={post}
+          user={user}
+          UI={UI}
+          dispatch={dispatch}
+          {...props}
+        />
       );
+    })
+  ) : (
+    data.posts.map((post, i) => {
+      if (post.postId !== profile.postIdParam) {
+        return (
+          <PostCard
+            key={i}
+            post={post}
+            user={user}
+            UI={UI}
+            dispatch={dispatch}
+            {...props}
+          />
+        );
+      } else {
+        return (
+          <PostCard
+            key={i}
+            post={post}
+            user={user}
+            UI={UI}
+            dispatch={dispatch}
+            {...props}
+          />
+        );
+      }
     })
   );
   return (

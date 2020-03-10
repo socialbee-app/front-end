@@ -11,7 +11,7 @@ import ProfileCard from "../components/profile/ProfileCard";
 // Material-UI
 import Grid from "@material-ui/core/Grid";
 
-const Home = () => {
+const Home = props => {
   const loading = useSelector(state => state.data.loading);
   const posts = useSelector(state => state.data.posts);
   const user = useSelector(state => state.user);
@@ -25,7 +25,14 @@ const Home = () => {
 
   const recentPosts = !loading ? (
     posts.map((post, i) => (
-      <PostCard post={post} key={i} user={user} dispatch={dispatch} UI={UI}>
+      <PostCard
+        post={post}
+        key={i}
+        user={user}
+        dispatch={dispatch}
+        UI={UI}
+        {...props}
+      >
         {post.body}
       </PostCard>
     ))

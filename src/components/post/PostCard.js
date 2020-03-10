@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -43,7 +43,7 @@ const styles = {
 };
 
 const PostCard = props => {
-  const { classes, post, user, dispatch, UI } = props;
+  const { classes, post, user, dispatch, UI, match, location, history } = props;
 
   const deleteButton =
     user.isAuthenticated && post.username === user.credentials.username ? (
@@ -52,16 +52,50 @@ const PostCard = props => {
 
   // Post Modal Code
   const [modalOpen, setModalOpen] = useState(false);
+  const [path, setPath] = useState({
+    oldPath: "",
+    newPath: ""
+  });
 
   const handleModalOpen = () => {
+    let oldPath = location.pathname;
+    const newPath = `/users/${post.username}/post/${post.postId}`;
+
+    setPath({
+      oldPath,
+      newPath
+    });
+
+    if (oldPath === newPath) {
+      setPath({
+        ...path,
+        oldPath: `/users/${post.username}`
+      });
+    }
+
+    if (oldPath !== "/") {
+      history.push(newPath);
+    }
     setModalOpen(true);
     dispatch(getPost(post.postId));
   };
 
   const handleModalClose = () => {
+    history.push(path.oldPath);
+
+    setPath({
+      newPath: ""
+    });
+
     setModalOpen(false);
     clearErrors();
   };
+
+  useEffect(() => {
+    if (match && match.params.postId && match.params.postId === post.postId) {
+      handleModalOpen();
+    }
+  }, []);
 
   dayjs.extend(relativeTime);
   return (
@@ -78,6 +112,7 @@ const PostCard = props => {
             component={Link}
             to={`/users/${post.username}`}
             color="primary"
+            onClick={e => e.stopPropagation()}
           >
             {post.username}
           </Typography>
@@ -98,10 +133,12 @@ const PostCard = props => {
       </Card>
       {modalOpen && (
         <PostModal
+          openDialog={props.openDialog}
           post={post}
           UI={UI}
           modalOpen={modalOpen}
           handleModalClose={handleModalClose}
+          handleModalOpen={handleModalOpen}
           user={user}
           dispatch={dispatch}
         />

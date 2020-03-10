@@ -72,6 +72,15 @@ export const editUserDetails = userDetails => dispatch => {
     .catch(err => console.log(err));
 };
 
+export const markNotificationsRead = notificationIds => dispatch => {
+  axios
+    .post("/notifications", notificationIds)
+    .then(() => {
+      dispatch({ type: actionTypes.MARK_NOTIFICATIONS_READ });
+    })
+    .catch(err => console.log(err));
+};
+
 const setAuthorizationHeader = token => {
   // sets the authorization header globally
   const IdToken = `Bearer ${token}`;
