@@ -104,10 +104,6 @@ const Navbar = () => {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  // useEffect(() => {
-  //   return;
-  // }, [notifications]);
-
   const handleProfileMenuOpen = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -247,12 +243,7 @@ const Navbar = () => {
             {isAuthenticated && (
               <>
                 <AddPost menuId={menuId} UI={UI} dispatch={dispatch} />
-                {/* <IconButton
-                  aria-label="show notifications count"
-                  color="inherit"
-                > */}
                 <Notifications notifications={notifications} />
-                {/* </IconButton> */}
                 <IconButton
                   edge="end"
                   aria-label="account of current user"
