@@ -23,24 +23,27 @@ import ChatIcon from "@material-ui/icons/Chat";
 import Tooltip from "@material-ui/core/ToolTip";
 
 const Notifications = props => {
-  // const { notifications } = props;
-  const notifications = useSelector(state => state.user.notifications);
+  const { notifications } = props;
+  // const notifications = useSelector(state => state.user.notifications);
   const dispatch = useDispatch();
 
   const [state, setState] = useState({
-    anchorEl: null
+    anchorEl: null,
+    notifications: []
   });
 
   dayjs.extend(relativeTime);
 
   const handleOpen = event => {
     setState({
+      ...state,
       anchorEl: event.target
     });
   };
 
   const handleClose = () => {
     setState({
+      ...state,
       anchorEl: null
     });
   };
@@ -56,8 +59,8 @@ const Notifications = props => {
 
   let counter = 0;
 
-  const notificationsList = () => {
-    return notifications && notifications.length > 0 ? (
+  let notificationsList =
+    notifications && notifications.length > 0 ? (
       notifications.map((noti, i) => {
         const phrase = noti.type === "like" ? "liked" : "commented on";
         const time = dayjs(noti.createdAt).fromNow();
@@ -72,24 +75,21 @@ const Notifications = props => {
           counter += 1;
         }
 
-        return (
-          <MenuItem key={i} onClick={handleClose}>
-            {icon}
-            <Typography
-              component={Link}
-              color="default"
-              variant="body1"
-              to={`/users/${noti.recipient}/post/${noti.postId}`}
-            >
-              {noti.sender} {phrase} your post {time}
-            </Typography>
-          </MenuItem>
-        );
+        <MenuItem key={i} onClick={handleClose}>
+          {icon}
+          <Typography
+            component={Link}
+            color="default"
+            variant="body1"
+            to={`/users/${noti.recipient}/post/${noti.postId}`}
+          >
+            {noti.sender} {phrase} your post {time}
+          </Typography>
+        </MenuItem>;
       })
     ) : (
       <MenuItem onClick={handleClose}>You have no notifications...</MenuItem>
     );
-  };
 
   return (
     <>
@@ -109,7 +109,7 @@ const Notifications = props => {
         onClose={handleClose}
         onEntered={onOpen}
       >
-        {notificationsList()}
+        {notificationsList}
       </Menu>
     </>
   );
