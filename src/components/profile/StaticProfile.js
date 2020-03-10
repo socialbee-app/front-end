@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+
+// Redux
+import { getPost } from "../../redux/actions/dataActions";
+import { useSelector, useDispatch } from "react-redux";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -45,8 +49,17 @@ const styles = theme => ({
 
 const StaticProfile = props => {
   const { classes, profile } = props;
+  const dispatch = useDispatch();
+  const data = useSelector(state => state.data);
 
-  return (
+  // useEffect(() => {
+  //   if (profile.postIdParam && !data.post) {
+  //     dispatch(getPost(profile.postIdParam));
+  //   }
+  // }, []);
+  // console.log("profile", profile);
+
+  const renderContent = profile.profileData ? (
     <Paper className={classes.paper}>
       <div className={classes.profile}>
         <div className="image-wrapper">
@@ -99,7 +112,11 @@ const StaticProfile = props => {
         </div>
       </div>
     </Paper>
+  ) : (
+    <p>...Loading</p>
   );
+
+  return <div>{renderContent}</div>;
 };
 
 export default withStyles(styles)(StaticProfile);
