@@ -21,7 +21,7 @@ const Home = props => {
 
   useEffect(() => {
     dispatch(getPosts());
-  }, []);
+  }, [dispatch]);
 
   const recentPosts = !loading ? (
     posts.map((post, i) => (

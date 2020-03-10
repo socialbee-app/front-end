@@ -95,7 +95,7 @@ const PostCard = props => {
     if (match && match.params.postId && match.params.postId === post.postId) {
       handleModalOpen();
     }
-  }, []);
+  }, [match.params.postId]);
 
   dayjs.extend(relativeTime);
   return (

@@ -45,7 +45,7 @@ export const userReducer = (state = initialState, action) => {
         likes: state.likes.filter(like => like.postId !== action.payload.postId)
       };
     case actionTypes.MARK_NOTIFICATIONS_READ:
-      state.notifications.forEach(notification => (notification.read = true));
+      state.notifications.forEach(notification => (notification.read = "true"));
       return {
         ...state
       };
