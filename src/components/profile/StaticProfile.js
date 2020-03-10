@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 
@@ -16,48 +16,13 @@ import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 
 const styles = theme => ({
-  paper: {
-    padding: 20
-  },
-  profile: {
-    "& .image-wrapper": {
-      textAlign: "center",
-      position: "relative"
-    },
-    "& .profile-image": {
-      width: 175,
-      height: 175,
-      objectFit: "cover",
-      maxWidth: "100%",
-      borderRadius: "50%"
-    },
-    "& .profile-details": {
-      textAlign: "center",
-      "& span, svg": {
-        verticalAlign: "middle"
-      },
-      "& a": {
-        color: theme.palette.primary.main
-      }
-    },
-    "& hr": {
-      border: "none",
-      margin: "0 0 10px 0"
-    }
-  }
+  ...theme.spreader
 });
 
 const StaticProfile = props => {
   const { classes, profile } = props;
   const dispatch = useDispatch();
   const data = useSelector(state => state.data);
-
-  // useEffect(() => {
-  //   if (profile.postIdParam && !data.post) {
-  //     dispatch(getPost(profile.postIdParam));
-  //   }
-  // }, []);
-  // console.log("profile", profile);
 
   const renderContent = profile.profileData ? (
     <Paper className={classes.paper}>

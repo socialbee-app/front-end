@@ -52,11 +52,6 @@ const Notifications = props => {
     dispatch(markNotificationsRead(unreadNotificationIds));
   };
 
-<<<<<<< HEAD
-  console.log("notifications", notifications);
-
-  let counter = 0;
-=======
   let notificationsIcon;
   if (notifications && notifications.length > 0) {
     notifications.filter(noti => noti.read === "false").length > 0
@@ -74,7 +69,6 @@ const Notifications = props => {
   } else {
     notificationsIcon = <NotificationsIcon />;
   }
->>>>>>> 959513d7c86ce7f1c1e2f1f2c2f1113f2d31a2ed
 
   let notificationsList =
     notifications && notifications.length > 0 ? (

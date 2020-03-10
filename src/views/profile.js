@@ -8,6 +8,8 @@ import { getProfileData } from "../redux/actions/dataActions";
 // Components
 import PostCard from "../components/post/PostCard";
 import StaticProfile from "../components/profile/StaticProfile";
+import PostSkeleton from "../util/PostSkeleton";
+import ProfileSkeleton from "../util/ProfileSkeleton";
 
 // Material UI
 import Grid from "@material-ui/core/Grid";
@@ -46,7 +48,7 @@ const Profile = props => {
   }, []);
 
   const postsList = data.loading ? (
-    <p>...loading</p>
+    <PostSkeleton />
   ) : data.posts === null ? (
     <p>This user has no posts</p>
   ) : !profile.postIdParam ? (
@@ -93,7 +95,7 @@ const Profile = props => {
     <Grid container spacing={2}>
       <Grid item sm={4} xs={12}>
         {profile.profileData === null ? (
-          <p>...loading</p>
+          <ProfileSkeleton />
         ) : (
           <StaticProfile profile={profile} />
         )}
